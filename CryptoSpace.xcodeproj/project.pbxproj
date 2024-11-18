@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		A6DDE65F2CE6140D0092DFF3 /* CryptoSpaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DDE65E2CE6140D0092DFF3 /* CryptoSpaceApp.swift */; };
-		A6DDE6612CE6140D0092DFF3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DDE6602CE6140D0092DFF3 /* ContentView.swift */; };
 		A6DDE6632CE614170092DFF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6DDE6622CE614170092DFF3 /* Assets.xcassets */; };
 		A6DDE6662CE614170092DFF3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6DDE6652CE614170092DFF3 /* Preview Assets.xcassets */; };
 		A6DDE6702CE614180092DFF3 /* CryptoSpaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DDE66F2CE614180092DFF3 /* CryptoSpaceTests.swift */; };
 		A6DDE67A2CE614180092DFF3 /* CryptoSpaceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DDE6792CE614180092DFF3 /* CryptoSpaceUITests.swift */; };
 		A6DDE67C2CE614180092DFF3 /* CryptoSpaceUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DDE67B2CE614180092DFF3 /* CryptoSpaceUITestsLaunchTests.swift */; };
+		A6DDE68B2CE63F950092DFF3 /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = A6DDE68A2CE63F950092DFF3 /* Starscream */; };
+		A6DDE68E2CE640720092DFF3 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DDE68D2CE640720092DFF3 /* WebSocketManager.swift */; };
+		A6DDE6912CE782A30092DFF3 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DDE6902CE782A30092DFF3 /* Network.swift */; };
+		A6DDE6942CE7876F0092DFF3 /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DDE6932CE7876F0092DFF3 /* Crypto.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +39,6 @@
 /* Begin PBXFileReference section */
 		A6DDE65B2CE6140D0092DFF3 /* CryptoSpace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoSpace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6DDE65E2CE6140D0092DFF3 /* CryptoSpaceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoSpaceApp.swift; sourceTree = "<group>"; };
-		A6DDE6602CE6140D0092DFF3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A6DDE6622CE614170092DFF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A6DDE6652CE614170092DFF3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A6DDE66B2CE614180092DFF3 /* CryptoSpaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CryptoSpaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +46,9 @@
 		A6DDE6752CE614180092DFF3 /* CryptoSpaceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CryptoSpaceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6DDE6792CE614180092DFF3 /* CryptoSpaceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoSpaceUITests.swift; sourceTree = "<group>"; };
 		A6DDE67B2CE614180092DFF3 /* CryptoSpaceUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoSpaceUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A6DDE68D2CE640720092DFF3 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
+		A6DDE6902CE782A30092DFF3 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		A6DDE6932CE7876F0092DFF3 /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6DDE68B2CE63F950092DFF3 /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,8 +100,10 @@
 		A6DDE65D2CE6140D0092DFF3 /* CryptoSpace */ = {
 			isa = PBXGroup;
 			children = (
+				A6DDE6922CE786490092DFF3 /* Domain.Models */,
+				A6DDE68F2CE782810092DFF3 /* Services */,
+				A6DDE68C2CE6404C0092DFF3 /* websocket */,
 				A6DDE65E2CE6140D0092DFF3 /* CryptoSpaceApp.swift */,
-				A6DDE6602CE6140D0092DFF3 /* ContentView.swift */,
 				A6DDE6622CE614170092DFF3 /* Assets.xcassets */,
 				A6DDE6642CE614170092DFF3 /* Preview Content */,
 			);
@@ -127,6 +135,30 @@
 			path = CryptoSpaceUITests;
 			sourceTree = "<group>";
 		};
+		A6DDE68C2CE6404C0092DFF3 /* websocket */ = {
+			isa = PBXGroup;
+			children = (
+				A6DDE68D2CE640720092DFF3 /* WebSocketManager.swift */,
+			);
+			path = websocket;
+			sourceTree = "<group>";
+		};
+		A6DDE68F2CE782810092DFF3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A6DDE6902CE782A30092DFF3 /* Network.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A6DDE6922CE786490092DFF3 /* Domain.Models */ = {
+			isa = PBXGroup;
+			children = (
+				A6DDE6932CE7876F0092DFF3 /* Crypto.swift */,
+			);
+			path = Domain.Models;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +175,9 @@
 			dependencies = (
 			);
 			name = CryptoSpace;
+			packageProductDependencies = (
+				A6DDE68A2CE63F950092DFF3 /* Starscream */,
+			);
 			productName = CryptoSpace;
 			productReference = A6DDE65B2CE6140D0092DFF3 /* CryptoSpace.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +250,9 @@
 				Base,
 			);
 			mainGroup = A6DDE6522CE6140D0092DFF3;
+			packageReferences = (
+				A6DDE6892CE63F950092DFF3 /* XCRemoteSwiftPackageReference "Starscream" */,
+			);
 			productRefGroup = A6DDE65C2CE6140D0092DFF3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -257,7 +295,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6DDE6612CE6140D0092DFF3 /* ContentView.swift in Sources */,
+				A6DDE68E2CE640720092DFF3 /* WebSocketManager.swift in Sources */,
+				A6DDE6942CE7876F0092DFF3 /* Crypto.swift in Sources */,
+				A6DDE6912CE782A30092DFF3 /* Network.swift in Sources */,
 				A6DDE65F2CE6140D0092DFF3 /* CryptoSpaceApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -588,6 +628,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A6DDE6892CE63F950092DFF3 /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A6DDE68A2CE63F950092DFF3 /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A6DDE6892CE63F950092DFF3 /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A6DDE6532CE6140D0092DFF3 /* Project object */;
 }

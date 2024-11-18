@@ -1,18 +1,20 @@
-import SwiftUI
+import Foundation
 
-class WebSocketManager: NSObject, ObservableObject {
+class WebSocketManager: NSObject, URLSessionWebSocketDelegate {
     private var webSocketTask: URLSessionWebSocketTask?
+    private let crypto: Crypto
 
-    init(url: URL) {
-        super.init()
-        let urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
-        webSocketTask = urlSession.webSocketTask(with: url)
-        connect()
-    }
+    private func connectToWebSocket(for symbol: String) {
+        let urlString = "wss://api.gemini.com/v1/marketdata/\(symbol)USD"
+        guard let url = URL(string: urlString) else {
+            print("Invalid WebSocket URL")
+            return
+        }
 
-    private func connect() {
+        let session = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue.main) // Ensure delegate is used
+        webSocketTask = session.webSocketTask(with: url)
         webSocketTask?.resume()
-        receiveMessage() // Start listening for messages
+        print("WebSocket task resumed for \(symbol)")
     }
 
     private func receiveMessage() {
@@ -21,30 +23,90 @@ class WebSocketManager: NSObject, ObservableObject {
             case .success(let message):
                 switch message {
                 case .string(let text):
-                    print("Received message: \(text)")
-                    // Optionally: Handle message update in the UI
-                    DispatchQueue.main.async {
-                        self?.messageReceived(text)
-                    }
+                    //print("WebSocket message for \(self?.crypto.symbol ?? ""): \(text)")
+                    self?.handleMessage(text)
                 case .data(let data):
-                    print("Received binary data: \(data)")
+                    print("WebSocket binary data received for \(self?.crypto.symbol ?? ""): \(data)")
                 @unknown default:
-                    print("Received an unknown message type")
+                    print("Unknown WebSocket message type")
                 }
-                // Continue to listen for more messages
-                self?.receiveMessage()
+                self?.receiveMessage() // Continue listening
             case .failure(let error):
-                print("Failed to receive message: \(error)")
+                print("WebSocket error for \(self?.crypto.symbol ?? ""): \(error)")
             }
         }
     }
 
-    private func messageReceived(_ text: String) {
-        // Handle the received message as needed
-        print("Message received and handled: \(text)")
+    private func handleMessage(_ text: String) {
+        guard let data = text.data(using: .utf8) else { return }
+        do {
+            // Parse the JSON
+            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            if let events = json?["events"] as? [[String: Any]],
+               let priceString = events.first?["price"] as? String,
+               let newPrice = Double(priceString) {
+                
+                // Update the price on the main thread
+                DispatchQueue.main.async {
+                    self.crypto.price = newPrice
+                    print("Updated \(self.crypto.symbol) price to \(newPrice)")
+                }
+            } else {
+                print("Unexpected WebSocket data format: \(json ?? [:])")
+            }
+        } catch {
+            print("Failed to parse WebSocket message: \(error)")
+        }
+    }
+
+    func disconnect() {
+        webSocketTask?.cancel(with: .goingAway, reason: nil)
+        print("WebSocket disconnected for \(crypto.symbol)")
+    }
+
+    private var pingTimer: Timer?
+
+    init(crypto: Crypto) {
+        self.crypto = crypto
+        super.init()
+        connectToWebSocket(for: crypto.symbol)
+        pingTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
+            self?.sendPing()
+        }
     }
 
     deinit {
-        webSocketTask?.cancel(with: .goingAway, reason: nil)
+        pingTimer?.invalidate()
+        disconnect()
     }
+
+    // MARK: - URLSessionWebSocketDelegate Methods
+    func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didOpenWithProtocol protocol: String?) {
+        print("WebSocket connected for \(crypto.symbol)")
+        receiveMessage() // Start listening for messages
+    }
+
+    func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
+        print("WebSocket closed for \(crypto.symbol) with code: \(closeCode)")
+        reconnect()
+    }
+
+    private func reconnect() {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 5) { [weak self] in
+            guard let self = self else { return }
+            print("Attempting to reconnect for \(self.crypto.symbol)...")
+            self.connectToWebSocket(for: self.crypto.symbol)
+        }
+    }
+    
+    private func sendPing() {
+        webSocketTask?.sendPing { error in
+            if let error = error {
+                print("Ping failed for \(self.crypto.symbol): \(error)")
+            } else {
+                print("Ping sent for \(self.crypto.symbol)")
+            }
+        }
+    }
+    
 }
